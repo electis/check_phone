@@ -16,6 +16,7 @@ class Command(BaseCommand):
         ok = True
         for url in settings.urls:
             response = requests.get(url)
+            # TODO Проверка на совпадение crc с предыдущей версией, т.к. заявленное обновление базы только раз в месяц
             try:
                 reestr = csv.reader(io.StringIO(response.content.decode('utf-8')), delimiter=';')
                 for row in reestr:
