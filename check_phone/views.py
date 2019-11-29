@@ -20,6 +20,8 @@ def get_phone(phone):
 
 
 def check_phone(phone):
+    if type(phone) != str:
+        phone = str(phone)
     if not phone:
         code = 1
     elif not phone.isdigit() or len(phone) != 11 or phone[0] != '7':
