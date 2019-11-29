@@ -74,4 +74,4 @@ class ApiView(View):
             return JsonResponse({'code': code, 'text': error_dict.get(code, 'Unknown error')})
         return JsonResponse({
             'code': code, 'text': error_dict.get(code),
-            'phone': request_phone, 'operator': obj.operator, 'location': obj.location})
+            'phone': request_phone, 'operator': obj.operator.operator, 'location': obj.location.location})
