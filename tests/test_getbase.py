@@ -10,7 +10,9 @@ class AllTestClass(TestCase):
 
     def test_request_error(self):
         settings = models.Settings.objects.create(urls=['tests'])
-        get_base.Command().handle()
+        result = get_base.Command().handle()
+        self.assertEqual(result, -1)
 
     def test_normal(self):
-        get_base.Command().handle()
+        result = get_base.Command().handle()
+        self.assertEqual(result, 1)

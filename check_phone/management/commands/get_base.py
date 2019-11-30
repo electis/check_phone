@@ -16,6 +16,7 @@ class Command(BaseCommand):
                              'https://rossvyaz.ru/data/DEF-9xx.csv']
         settings.base_ready = False
         settings.save()
+        result = 1
         with transaction.atomic():
             models.Phones.objects.all().delete()
             for url in settings.urls:
@@ -24,6 +25,7 @@ class Command(BaseCommand):
                     response = requests.get(url)
                 except:
                     print('Error request')
+                    result = -1
                     break
                 new = []
                 # TODO Проверка на совпадение crc с предыдущей версией
@@ -55,9 +57,12 @@ class Command(BaseCommand):
                         models.Phones.objects.bulk_create(new)
                 except Exception as e:
                     print(e)
-                    transaction.rollback()
+                    result = -2
                     break
         settings.base_ready = True
         settings.save()
-        print('All OK')
-        return 1
+        if result == 1:
+            print('All OK')
+        else:
+            print('Something wrong')
+        return result
